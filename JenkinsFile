@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+     environment {
+    PATH = "/usr/local/bin/:$PATH"
+    HOME="/var/root/.jenkins"
+
+  }
+    stages {
+       stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'git@github.com:MetaArivu/cicd-jenkinspipelineuat.git',
+                    credentialsId: 'mygithubssh'
+            }
+            }
+         
+        stage('Test1') {
+            steps {
+                echo 'Test the App'
+                sh 'cp -rf /private/var/root/.jenkins/workspace/node-pipeline/docs/HelloM/* docs/'
+            }
+        }     
+        
+        stage('Staging') {
+              steps {
+         input{
+    message "Do you want to proceed for production deployment?"
+  }        
+                echo 'Deploy the App in Staging'
+                echo "HOME is: $HOME"
+                sh 'git add docs'
+                sh 'git commit -m "docs"'
+                sshagent(credentials : ['mygithubssh']) {               
+                    sh 'git push -f origin HEAD:main'
+                }
+
+            }
+        }
+          
+            
+    }
+}
