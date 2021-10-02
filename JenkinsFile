@@ -22,9 +22,9 @@ pipeline {
         }     
         
         stage('Staging') {
-              steps {
         input{message "Do you want to proceed for production deployment?"
-  }        
+  }  
+              steps {      
                 echo 'Deploy the App in Staging'
                 echo "HOME is: $HOME"
                 sh 'git add docs'
