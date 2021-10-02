@@ -23,8 +23,7 @@ pipeline {
         
         stage('Staging') {
               steps {
-         input{
-    message "Do you want to proceed for production deployment?"
+        input{message "Do you want to proceed for production deployment?"
   }        
                 echo 'Deploy the App in Staging'
                 echo "HOME is: $HOME"
